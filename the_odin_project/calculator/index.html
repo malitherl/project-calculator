@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate!</title>
+    <style>
+        
+
+
+        body {
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+            background-color:rgb(22, 22, 22);
+        }
+
+        #calculatorBody{
+           
+            background-color:rgb(22, 22, 22);
+            width: 450px;
+            height: 700px;
+            padding: 30px;
+
+
+        }
+
+        #displayBox{
+            
+            background-color: rgb(22, 22, 22);
+            width: 420px;
+            height: 100px;
+            margin-left: auto;
+            margin-right: auto;
+            border-bottom: 3px solid silver;
+           
+        }
+        
+        #operations {
+            background-color: rgb(39, 39, 39);
+        }
+        #equalsButton {
+            background-color: rgb(155, 102, 49);
+        }
+
+
+        .numberButtons {
+        
+            text-align: center;
+            text-decoration: none;
+            background-color: rgb(15, 15, 15);
+            padding: 10px;
+            color:silver;
+            margin-top: 10px;
+            border:none;
+            margin: 2px;
+        } 
+
+        .panel {
+
+            padding: 10px; 
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+
+        }
+
+
+
+ 
+
+
+
+    </style>
+    <!-- I'm going to try making a panel tomorrow that will contain all of the buttons for the calculator-->
+</head>
+
+<body>
+    <div id= "calculatorBody">
+        
+        <div id="displayBox">
+
+        </div>
+        <div class= "panel">
+        <button class="numberButtons"  id= "operations">
+            (
+        </button>
+        <button class="numberButtons"  id= "operations">
+            )
+        </button>
+        <button class="numberButtons"  id= "operations">
+            C
+        </button><button class="numberButtons" id= "operations">
+            *
+        </button><button class="numberButtons">
+            7
+        </button>
+    </button><button class="numberButtons">
+        8
+    </button></button><button class="numberButtons">
+        9
+    </button>
+    
+    <button class="numberButtons" id= "operations">
+        +
+    </button>
+</button><button class="numberButtons">
+    4
+</button>
+</button><button class="numberButtons">
+    5
+</button>
+
+</button><button class="numberButtons">
+    6
+</button>
+</button><button class="numberButtons"  id= "operations">
+    -
+</button>
+</button><button class="numberButtons">
+    1
+</button>
+</button><button class="numberButtons">
+    2
+</button>
+</button><button class="numberButtons">
+    3
+</button>
+</button><button class="numberButtons"  id= "operations">
+    /
+</button>
+<button class="numberButtons" >
+    +/-
+</button>
+</button>
+
+<button class="numberButtons">
+    0
+</button>
+<button class="numberButtons">
+    .
+</button>
+<button class="numberButtons"  id= "equalsButton">
+    =
+</button>
+
+    </div>
+</div>
+
+    <script>
+        function add(a,b){
+         return a+b;
+        };
+        function subtract(a,b){
+            return a+b;
+        };
+        function multiply(a,b){
+            return a+b;
+        }
+        function divide(a,b){
+            return a/b;
+        }
+
+        function operate(operator, a, b){
+            if(operator == "+"){
+                add(a,b);
+            }
+            else if (operator == "-"){
+                subtract(a,b);
+            }
+            else if (operator == "*"){
+                multiply(a,b);
+            } else if (operator == "/") {
+                divide(a,b);
+            }
+        }
+
+        </script>
+
+
+
+
+</body>
+
+</html>
