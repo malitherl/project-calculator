@@ -226,19 +226,28 @@
         } 
 
         function setOperator(operand){
-            if(operand == "/"){
-                operator ="/";
-            }
-            else if(operand == "+"){
-                operator ="+";
-            }
-            else if(operand == "*"){
-                operator ="*";
-            } else if (operand == "-"){
-                operator ="-";
-            }
-            display(operand);
-            isOperatorSet = true; 
+              
+            if(isOperatorSet== false){
+                if(operand == "/"){
+                    operator ="/";
+                }
+                else if(operand == "+"){
+                    operator ="+";
+                }
+                else if(operand == "*"){
+                    operator ="*";
+                } else if (operand == "-"){
+                    operator ="-";
+                }
+                display(operand);
+                isOperatorSet = true; 
+          } else {
+
+            equalsSignSetter();
+            isOperatorSet=false;
+            setOperator(operand);
+
+          }
         }
 
         function display(value){
