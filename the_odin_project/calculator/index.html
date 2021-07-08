@@ -88,23 +88,23 @@
         <button class="numberButtons"  id= "operations">
             )
         </button>
-        <button class="numberButtons" onclick="clearPage()" id= "operations">
+        <button class="numberButtons" onclick="totalClear()" id= "operations">
             C
-        </button><button onclick="setOperator(multiplication)" class="numberButtons" id= "operations">
+        </button><button onclick="setOperator(`*`)" class="numberButtons" id= "operations">
             *
-        </button><button onclick="display(7)" class="numberButtons">
+        </button><button onclick="set(7)" class="numberButtons">
             7
         </button>
-        </button><button  onclick="display(8)" class="numberButtons">
+        </button><button  onclick="set(8)" class="numberButtons">
             8
-        </button></button><button  onclick="display(9)" class="numberButtons">
+        </button></button><button  onclick="set(9)" class="numberButtons">
             9
         </button>
         
-        <button onclick= "setOperator(addition)" class="numberButtons" id= "operations">
+        <button onclick= "setOperator(`+`)" class="numberButtons" id= "operations">
             +
         </button>
-        </button><button  onclick="display(4)" class="numberButtons">
+        </button><button  onclick="set(4)" class="numberButtons">
             4
         </button>
         </button><button  onclick="set(5)" class="numberButtons">
@@ -114,19 +114,19 @@
         </button><button  onclick="set(6)" class="numberButtons">
             6
         </button>
-        </button><button onclick= "setOperator(subtraction)" class="numberButtons"   id= "operations">
+        </button><button onclick= "setOperator(`-`)" class="numberButtons"   id= "operations">
             -
         </button>
-        </button><button onclick="display(1)" class="numberButtons" >
+        </button><button onclick="set(1)" class="numberButtons" >
             1
         </button>
-        </button><button  onclick="display(2)" class="numberButtons">
+        </button><button  onclick="set(2)" class="numberButtons">
             2
         </button>
-        </button><button  onclick="display(3)" class="numberButtons">
+        </button><button  onclick="set(3)" class="numberButtons">
             3
         </button>
-        </button><button onclick="setOperator(division)" class="numberButtons"  id= "operations">
+        </button><button onclick="setOperator(`/`)" class="numberButtons"  id= "operations">
             /
         </button>
         <button class="numberButtons" >
@@ -140,13 +140,12 @@
         <button class="numberButtons">
             .
         </button>
-        <button onclick= "equalsSignSetter" class="numberButtons"  id= "equalsButton">
+        <button onclick= "equalsSignSetter()" class="numberButtons"  id= "equalsButton">
             =
         </button>
 
     </div>
 </div>
-
     <script>
         let values = [0, 0];
         let firstNumber = "";
@@ -160,28 +159,43 @@
             let ans = a+b;
             values[0]= ans; 
             values[1]=0;
+            clearPage();
             display(ans);
         };
         function subtract(a,b){
-            return a+b;
+            let ans = a-b;
+            values[0]= ans; 
+            values[1]=0;
+            clearPage();
+            display(ans);
         };
         function multiply(a,b){
-            return a+b;
+            let ans = a*b;
+            values[0]= ans; 
+            values[1]=0;
+            clearPage();
+            display(ans);
         }
         function divide(a,b){
-            return a/b;
+            let ans = a/b;
+            values[0]= ans; 
+            values[1]=0;
+            clearPage();
+            display(ans);
         }
 
         function equalsSignSetter(){
-            if(values[0]==0 && values[1]==0){
-                alert("*Softly* Don't.");
-            }
-            else if(values[0]!==0 && values[1]!==0){
-                equalsSignSetter= true;
-                operationSelection(operator, values[0], values[1]);
+           if(isOperatorSet == true){
+                if(secondNumber !==0){
+                    let second = parseInt(secondNumber);
+                    values[1] = second;
+                    operationSelection(operator, values[0], values[1]);
+                    firstNumber="";
+                    secondNumber="";
+                }
+                
             }
         }
-
 
         function operationSelection(operator, a, b){
             if(operator == "+"){
@@ -198,49 +212,33 @@
         }
         //serves to display the value, and calls the function to set the value 
         function set(val){
-            
+           
             if(values[0] == 0 && isOperatorSet== false){
                 firstNumber = firstNumber.concat(val);
                 display(val);
-                console.log(firstNumber);
-            } else if (values[0] !=0 && isOperatorSet=== true){
+            } if (values[0] ==0 && isOperatorSet=== true){
                 let first = parseInt(firstNumber);
                 values[0] = first;
-            } else if(values[1]== 0 && isOperatorSet == true){
+            } if(values[1]== 0 && isOperatorSet == true){
                 secondNumber = secondNumber.concat(val);
                 display(val);
-                console.log(secondNumber);
             } 
-
-            
-
         } 
 
         function setOperator(operand){
-            if(operand === "division"){
+            if(operand == "/"){
                 operator ="/";
             }
-            else if(operand === "addition"){
+            else if(operand == "+"){
                 operator ="+";
             }
-            else if(operand === "multiplication"){
+            else if(operand == "*"){
                 operator ="*";
-            } else if (operand === "subtraction"){
+            } else if (operand == "-"){
                 operator ="-";
             }
-            
+            display(operand);
             isOperatorSet = true; 
-        }
-
-        function setSecond(val){
-
-            while(val !== "=" && val !== "+" && val !== "/" && val !== "*" && val !== "+"){
-                secondNumber = secondNumber.concat(val);
-                display(val);
-            }
-            let second = parseInt(secondNumber);
-            values[1] = second; 
-
         }
 
         function display(value){
@@ -256,13 +254,20 @@
         function clearPage(){
             let box = document.querySelector("#displayBox");
             box.replaceChildren();
+        }
+        function totalClear(){
+            let box = document.querySelector("#displayBox");
+            box.replaceChildren();
+            values=[0,0];
+            firstNumber="";
+            secondNumber="";
+            isOperatorSet = false; 
+            operator ="unset";
+            isEqualsSignHit = false; 
 
         }
-        function setOperands(a){
-          parseInt(firstNumber);
 
 
-        }     
         </script>
 
 
