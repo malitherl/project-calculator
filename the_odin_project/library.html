@@ -1,0 +1,56 @@
+<html>
+<head>
+
+</head>
+<body>
+
+    <form onSubmit="return false;">
+        <!-- we need to read up on HTML forms and javascript-->
+        <label for="title">Book Title: </label><br>
+        <input type="text" id="title" value="The Hobbit"><br>
+        <label for="authorName">Author Name: </label><br>
+        <input type="text" id="author" value="J.R.R. Tolkien"><br>
+        <label for="pageCount">Page Count: </label><br>
+        <input type="text" id= "pageCount" value="320"><br>
+        <input type="radio" name="read" id="haveRead" value="read">
+        <label for="haveRead">Have Read</label><br>
+        <input type="radio" name= "read" id="haveNotRead" value="notRead">
+        <label for="haveRead">Have Not Read</label><br>
+        <br>
+        <button id= "submit">New Book</button>
+    </form>
+
+
+
+<script>
+
+    let library = [];
+
+    function Book(title, author, pages, haveRead){
+        this.title = title;
+        this.author = author;
+        this.pageCount = pageCount;
+        this.haveRead = haveRead;
+    }
+
+
+    function addBookToLibrary(book){
+        library.push(book);
+    }
+
+    function receiveFormInput(){
+        
+        let newBook= new Book(document.getElementById("title").value, 
+                                document.getElementById("author").value, 
+                                document.getElementById("pageCount").value, 
+                                document.getElementById("haveRead").value);
+        return newBook;
+    }
+    
+    document.getElementById("submit").addEventListener("click", addBookToLibrary(receiveFormInput()));
+
+
+</script>
+</body>
+
+</html>
