@@ -1,0 +1,249 @@
+<html>
+<head>
+<style>
+ #card {
+     background: blanchedalmond;
+     height: 100px;
+     width: 150px;
+     padding: 5px;
+     margin: 10px;
+     text-align: left;
+ }
+
+ #container{
+     background: burlywood;
+     display: flex; 
+     justify-content: center;
+
+ }
+            
+
+</style>
+</head>
+<body>
+
+<script>
+
+    let library = [];
+    function Book(title, author, pages, haveRead){
+        this.title = title;
+        this.author = author;
+        this.pageCount = pages;
+        this.haveRead = haveRead;
+    }
+
+    const a = new Book("The Hobbit", "J.R.R Tolkien", 320, false);
+    const b = new Book("The Hobbit", "J.R.R Tolkien", 320, true);
+    library.push(a);
+    library.push(b);
+    let isRun = false; 
+
+    function addBookToLibrary(book){
+        library.push(book);
+        displayLibrary(library);
+        dataValid();
+        bookRemoval();
+    }
+
+    function receiveFormInput(){
+        let isRead= false;
+        //we also want to make it so that the form only shows up when we hit the 'new book' button
+        if(document.getElementById("haveRead").checked == true){
+            isRead = true;
+        }
+        return new Book(document.getElementById("title").value, 
+                                document.getElementById("author").value, 
+                                document.getElementById("pageCount").value, 
+                                isRead);
+    }
+
+    function newBook(){
+       
+        if (isRun == false){
+            let sheet = document.createElement("FORM");
+            sheet.setAttribute("id", "newBookForm");
+            document.body.appendChild(sheet);
+            
+            let titleLabel = document.createElement("LABEL");
+            titleLabel.textContent = "Book Title: ";
+            let titleInput = document.createElement("INPUT");
+            titleInput.setAttribute("type", "text");
+            titleInput.setAttribute("id", "title");
+
+            let authorName = document.createElement("LABEL");
+            authorName.textContent = "Author Name: ";
+            let authorInput = document.createElement("INPUT");
+            authorInput.setAttribute("type", "text");
+            authorInput.setAttribute("id", "author");
+            
+            let pageNumberLabel = document.createElement("LABEL");
+            pageNumberLabel.textContent = "Page Count: ";
+            let pageNumberInput = document.createElement("INPUT");
+            pageNumberInput.setAttribute("type", "text");
+            pageNumberInput.setAttribute("id", "pageCount");
+
+            let read = document.createElement("LABEL"); 
+            read.textContent = "Have Read: ";
+            let readInput = document.createElement("INPUT");
+            readInput.setAttribute("type", "checkbox");
+            readInput.setAttribute("id", "haveRead");
+
+            document.getElementById("newBookForm").appendChild(titleLabel);
+            document.getElementById("newBookForm").appendChild(titleInput);
+
+            document.getElementById("newBookForm").appendChild(authorName);
+            document.getElementById("newBookForm").appendChild(authorInput);
+            
+            document.getElementById("newBookForm").appendChild(pageNumberLabel);
+            document.getElementById("newBookForm").appendChild(pageNumberInput);
+
+            document.getElementById("newBookForm").appendChild(read);
+            document.getElementById("newBookForm").appendChild(readInput);  
+            
+            let button = document.createElement("BUTTON");
+            button.setAttribute("type", "button");
+            button.setAttribute("id", "btnsubmit");
+            button.setAttribute("onclick", "addBookToLibrary(receiveFormInput())");
+            button.textContent = "Add Book to Library!";
+            document.getElementById("newBookForm").appendChild(button);
+            
+            let buttons = sheet.getElementsByTagName("BUTTON");
+            let breaks= document.createElement("BR");
+            sheet.insertBefore(breaks, buttons[0]);
+
+            let boxes = sheet.getElementsByTagName("LABEL");
+            for(i =0; i < boxes.length; i++){
+                let pageBreak = document.createElement("BR");
+                sheet.insertBefore(pageBreak, boxes[i]);
+            }
+        }
+        isRun = true;
+    }
+    //this simply returns a string instead of the raw boolean value for book.haveRead 
+    function toggleText(book){
+        return (book.haveRead ? "Read" : "Unread");
+    }
+
+
+    function toggleRead(book, i){
+        book.read();
+        let container = document.querySelector("#container"); 
+        let toMatch = container.querySelectorAll("p.cardText");
+        let cardFinder = Array.from(toMatch);
+        let cardToEdit = cardFinder[i];
+        cardToEdit.innerText = book.author + "\n" + book.title + "\n" + book.pageCount + "\n" + toggleText(book);
+
+        //it's functional 
+        //we need to select the correct version of the element, which means we could use another parameter! 
+        //and that parameter could match us to it, and then we could use to change the html of that particular element instead of it being the first 
+        // toMatch.innerText = book.author + '\n' + book.title + '\n' + book.pageCount + '\n' + book.haveRead;
+    }
+
+    Book.prototype.read = function(){      
+            console.log("hello");
+            console.log("past value: " + this.haveRead);
+            this.haveRead = (!(this.haveRead));
+            console.log("new value: " + this.haveRead);
+            
+        } 
+    
+
+    function displayLibrary(array){
+        //creates a DOM element with the information about the book 
+        //i think what i want to do is create a for-loop that generates a div and a list that contains all of the information about the book 
+        //and i believe i want this to flex-right...? but i will deal the css elements and styling after i manage to get the rest of the javascript written
+        const container = document.querySelector("#container");
+        let cards = container.querySelectorAll("DIV");
+        for(let i =0 ; i < cards.length; i++){
+            container.removeChild(cards[i]);
+        }
+
+
+
+            for(i = 0 ; i < array.length ; i++){     
+                let card = document.createElement("DIV");
+                card.setAttribute("id", "card");
+
+                let cardText = document.createElement("P");
+                cardText.setAttribute("class", "cardText");
+                cardText.innerText= array[i].author + '\n' + array[i].title + '\n' + array[i].pageCount + '\n' + toggleText(array[i]);
+            
+                
+                let toggleRead = document.createElement("BUTTON");
+                toggleRead.setAttribute("type" , "button");
+                toggleRead.setAttribute("class", "toggleRead"); 
+                toggleRead.textContent ="Change Read Status?";  
+                toggleRead.dataset.id = i; //this saves the index of the element so that we can connect the library array with the DOM 
+
+                let deleteBook = document.createElement("BUTTON");
+                deleteBook.setAttribute("type" , "button");
+                deleteBook.setAttribute("class", "deleteBook");
+                deleteBook.textContent= "Remove Book";
+                deleteBook.dataset.id = i; 
+                card.appendChild(cardText);
+                card.appendChild(toggleRead);
+                card.appendChild(deleteBook);
+                container.appendChild(card);
+                
+
+            }
+
+    }
+function dataValid () {
+    //so, this takes the number of toggleRead buttons and converts the nodelist into an array which can be iterated over by a for-each loop 
+    //because the for-each loop doesn't use indices, we instead look at the dataset-ids, and they correspond to the indices of the original library elements from the library array
+    
+    const matches = document.querySelectorAll("button.toggleRead");
+    let matches_array = Array.from(matches);
+    let readStatus = document.querySelector("#card");
+
+
+    matches_array.forEach(function(elem){
+        elem.addEventListener("click", function(e){
+            console.log(elem.dataset.id);//this allows us to connect the html DOM with the library elements 
+            toggleRead(library[elem.dataset.id], elem.dataset.id);
+        })
+    })
+    //and a similar function does the same thing except that it removes the element from the page and from the library array itself 
+    //i want to have a function set off once there's a change to the elements 
+
+}
+    
+function bookRemoval(){
+
+    const container = document.querySelector("#container");
+    const matchy = container.querySelectorAll("button.deleteBook"); //we use a forEach loop to apply an event listener to each button 
+    const cards = container.querySelectorAll("DIV");    //and then we use a nodelist from the Container 
+    let matchy_array = Array.from(matchy);
+    matchy_array.forEach(function(elem){
+        elem.addEventListener("click", function(e){
+            
+            let indexSave = elem.dataset.id;
+            let cardToRemove = cards[indexSave];
+            container.removeChild(cardToRemove);
+
+            let splicedArray = library.splice(indexSave, 1);
+            //a splice to remove 1 element at this specific index
+            //makes the library one element shorter 
+            console.table(library);
+            
+
+        })
+
+    })
+}
+
+//now we have both of these functions working. 
+//we just need to adjust the DOM so that it reflects these changes 
+
+</script>
+
+<div id ="container">
+
+</div>
+
+
+<button type= "button" id="btnsubmit" onclick= "newBook()">New Book</button>
+</body>
+
+</html>
